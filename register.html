@@ -3,50 +3,20 @@
 <head>
     <title>Register</title>
     <style>
-        /* Resetting body styles and defining global layout */
+        /* General body styles */
         body {
-            margin: 0; /* Remove default margin */
-            padding: 0; /* Remove default padding */
-            font-family: Arial, sans-serif; /* Set a clean sans-serif font */
-            height: 100vh; /* Set the height to full viewport */
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
             background-color: #f5f5f5; /* Light background color */
-            display: flex; /* Enable flexbox for body layout */
-            flex-direction: column; /* Stack child elements vertically */
-            align-items: center; /* Center child elements horizontally */
-            overflow: hidden; /* Prevent scrolling on the page */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden; /* Prevent scrolling */
         }
 
-        /* Header section at the top of the page */
-        .header {
-            width: 100%; /* Full width for header */
-            height: 25%; /* Set header height to 25% of viewport */
-            background-color: #4CAF50; /* Green background color */
-            color: #FFD700; /* Gold color for title text */
-            text-align: center; /* Center align the title */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Center items vertically */
-            justify-content: center; /* Center items horizontally */
-            position: relative; /* Enable positioning for child elements */
-        }
-
-        /* Logo image styles */
-        .header img {
-            position: absolute; /* Position logo relative to header */
-            top: -15px; /* Add space from the top */
-            left: 20px; /* Add space from the left */
-            height: 200px; /* Set logo height */
-        }
-
-        /* Title styles */
-        .header h1 {
-            margin: 0; /* Remove default margin */
-            padding: 60px 0; /* Space above and below the title text */
-            font-size: 48px; /* Large font size for the title */
-            font-weight: bold; /* Make the title bold */
-            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8); /* Add shadow for depth */
-        }
-
-        /* Form container for the registration box */
+        /* Form container styles */
         .form-container {
             width: 100%; /* Full width for responsiveness */
             max-width: 400px; /* Limit the maximum width */
@@ -54,106 +24,109 @@
             padding: 30px; /* Internal padding for spacing */
             border-radius: 10px; /* Rounded corners */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow for elevation */
-            margin-top: 20px; /* Space between the form and the header */
+            margin-top: 50px; /* Space between the form and the header */
         }
 
         /* Heading inside the form container */
         .form-container h2 {
-            text-align: center; /* Center align heading */
-            margin: 0; /* Remove default margin at the top */
-            margin-bottom: 20px; /* Add space below the heading */
-            color: #4CAF50; /* Use green accent color for heading */
+            text-align: center; /* Center-align heading text */
+            margin-bottom: 20px; /* Space below the heading */
+            font-size: 1.5rem;
+            color: #4CAF50; /* Green accent color */
         }
 
-        /* Label styles for form inputs */
+        /* Label styles for form fields */
         .form-container label {
-            font-weight: bold; /* Make labels bold */
-            display: block; /* Make labels block-level */
-            margin-bottom: 5px; /* Add space below labels */
+            font-weight: bold; /* Bold text for better visibility */
+            display: block; /* Make labels block-level elements */
+            margin-bottom: 5px; /* Space below the label */
         }
 
         /* Input field styles */
         .form-container input {
-            width: 100%; /* Full width for inputs */
-            padding: 10px; /* Add internal padding */
-            margin-bottom: 15px; /* Add space below inputs */
+            width: 100%; /* Full width of the form container */
+            padding: 10px; /* Internal padding for inputs */
+            margin-bottom: 15px; /* Space below each input field */
             border: 1px solid #ccc; /* Light border */
             border-radius: 5px; /* Rounded corners */
         }
 
-        /* Submit button styles */
+        /* Button styles for the submit button */
         .form-container button {
-            width: 100%; /* Full width for button */
-            padding: 10px; /* Add internal padding */
+            width: 100%; /* Full width of the container */
+            padding: 10px; /* Internal padding for the button */
             border: none; /* Remove default border */
             background-color: #4CAF50; /* Green background color */
             color: white; /* White text color */
-            font-size: 16px; /* Set font size */
+            font-size: 16px; /* Font size for better readability */
             border-radius: 5px; /* Rounded corners */
             cursor: pointer; /* Pointer cursor on hover */
-            transition: background 0.3s; /* Smooth hover transition */
+            transition: background 0.3s; /* Smooth hover effect transition */
         }
 
-        /* Hover effect for button */
+        /* Hover effect for the button */
         .form-container button:hover {
             background-color: #45a049; /* Darker green on hover */
         }
 
-        /* Paragraph styles inside form */
+        /* Paragraph styles inside the form container */
         .form-container p {
-            text-align: center; /* Center align text */
-            margin-top: 15px; /* Add space above paragraph */
+            text-align: center; /* Center-align the text */
+            margin-top: 15px; /* Space above the paragraph */
         }
 
-        /* Link styles inside form */
+        /* Link styles for the "Log In" link */
         .form-container a {
             color: #4CAF50; /* Green text color for links */
-            text-decoration: none; /* Remove underline */
+            text-decoration: none; /* Remove underline for links */
         }
 
         /* Hover effect for links */
         .form-container a:hover {
-            text-decoration: underline; /* Add underline on hover */
+            text-decoration: underline; /* Underline the text on hover */
         }
     </style>
 </head>
 <body>
-    <!-- Header section -->
-    <div class="header">
-        <!-- Logo image -->
-        <img src="QuizMate_WhiteLogo.png" alt="Logo">
-        <!-- Title -->
-        <h1>ONLINE MCQ EVALUATOR</h1>
-    </div>
-
-    <!-- Registration form container -->
+    <!-- Form container -->
     <div class="form-container">
-        <!-- Form heading -->
-        <h2>Register</h2>
-        <!-- Registration form -->
-        <form action="registerconnect.php" method="post">
-            <!-- Name input -->
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+        <form action="register.php" method="post">
+            <h2>Register</h2>
 
-            <!-- Email input -->
-            <label for="email">Email Id:</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email id" required>
+            <label for="fname">First Name:</label>
+            <input type="text" id="fname" name="fname" placeholder="Enter your first name" required pattern="[A-Za-z]+" title="First name should contain only letters.">
 
-            <!-- Password input -->
+            <label for="lname">Last Name:</label>
+            <input type="text" id="lname" name="lname" placeholder="Enter your last name" required pattern="[A-Za-z]+" title="Last name should contain only letters.">
+
+            <label for="email">Email ID:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email ID" required autocomplete="email">
+
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required minlength="8" title="Password must be at least 8 characters long.">
 
-            <!-- Confirm password input -->
             <label for="confirm-password">Confirm Password:</label>
-            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required>
+            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm your password" required oninput="checkPasswordMatch();">
 
-            <!-- Submit button -->
+            <label for="mobileNumber">Mobile Number:</label>
+            <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="Enter your mobile number" required pattern="[0-9]{10}" title="Mobile number should be exactly 10 digits.">
+
             <button type="submit">Register</button>
-
-            <!-- Link to login page -->
             <p>Already have an account? <a href="login.html">Log In</a></p>
         </form>
     </div>
+
+    <script>
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('confirm-password').setCustomValidity("Passwords don't match.");
+            } else {
+                document.getElementById('confirm-password').setCustomValidity('');
+            }
+        }
+    </script>
 </body>
 </html>

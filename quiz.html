@@ -13,18 +13,15 @@
         .container {
             width: 100%;
             height: 100vh;
-            margin: 0;
             box-sizing: border-box;
             background: rgba(223, 229, 232, 0.8);
-            padding: 60px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 40px;
             display: flex;
             flex-direction: row;
         }
         .question-list-container {
-            width: 120px;
-            padding: 20px;
+            width: 200px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -34,7 +31,7 @@
             padding: 0;
             margin: 0;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
         .question-list li {
@@ -49,8 +46,6 @@
             color: black;
             font-size: 16px;
             cursor: pointer;
-            text-align: center;
-            line-height: 40px;
         }
         .question-list li:hover {
             background-color: #218838;
@@ -73,25 +68,17 @@
         .timer {
             text-align: center;
             margin: 10px 0;
-            font-size: 20px;
+            font-size: 22px;
             color: #ff4500;
         }
         .question {
             margin: 20px 0;
             font-size: 18px;
-            text-align: left;
         }
         .options label {
             display: block;
             margin: 10px 0;
             font-size: 16px;
-            cursor: pointer;
-        }
-        .options input:disabled + label {
-            color: gray;
-        }
-        .options input {
-            margin-right: 10px;
         }
         .submit-button, .preview-button {
             padding: 10px;
@@ -100,7 +87,6 @@
             border-radius: 5px;
             color: white;
             cursor: pointer;
-            text-align: center;
             width: 45%;
             margin-top: 20px;
         }
@@ -127,13 +113,9 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .report-header {
-            text-align: center;
-            margin-bottom: 20px;
         }
         .report-header h1 {
+            text-align: center;
             color: #333;
         }
         .report-stats {
@@ -148,9 +130,6 @@
             background-color: #f8f9fa;
             border: 1px solid #ddd;
         }
-        .question-summary {
-            margin-top: 20px;
-        }
         .question-summary table {
             width: 100%;
             border-collapse: collapse;
@@ -158,10 +137,6 @@
         .question-summary th, .question-summary td {
             border: 1px solid #ddd;
             padding: 10px;
-            text-align: left;
-        }
-        .question-summary th {
-            background-color: #f8f9fa;
         }
         .correct-answer {
             color: #28a745;
@@ -176,13 +151,12 @@
 <body>
     <div class="container">
         <div class="question-list-container">
-            <ul id="question-list" class="question-list">
-            </ul>
+            <ul id="question-list" class="question-list"></ul>
         </div>
         <div class="quiz-container">
             <div class="quiz-content">
                 <h1>Quiz App</h1>
-                <div class="timer">Time Left: <span id="time">90</span>s</div>
+                <div class="timer">Time Left: <span id="time">00:20:00</span></div>
                 <form id="quiz-form">
                     <div class="question" id="question"></div>
                     <div class="options"></div>
@@ -194,8 +168,9 @@
             </div>
         </div>
     </div>
+
     <script>
-        const questions = [
+         const questions = [
             { question: "What does SQL stand for?", options: ["Sequential Query Language", "Structured Query Language", "Simple Query Language", "Server Query Language"], correctAnswer: "Structured Query Language" },
             { question: "Which SQL command is used to retrieve data from a database?", options: ["GET", "SELECT", "FETCH", "EXTRACT"], correctAnswer: "SELECT" },
             { question: "What is a primary key?", options: ["A key that unlocks the database", "A unique identifier for a row in a table", "A key used for encrypting data", "A key that joins two tables"], correctAnswer: "A unique identifier for a row in a table" },
@@ -217,6 +192,7 @@
             { question: "What does the SQL operator LIKE do?", options: ["Filters rows with exact matches", "Matches a pattern in a string", "Joins two strings together", "Compares numerical values"], correctAnswer: "Matches a pattern in a string" },
             { question: "How do you concatenate two strings in SQL?", options: ["With the CONCAT() function", "Using the + operator", "With the JOIN() function", "Using the MERGE() function"], correctAnswer: "With the CONCAT() function" },
         ];
+
         let currentQuestionIndex = 0;
         let selectedAnswers = Array(questions.length).fill(null);
         let startTime = Date.now();
@@ -245,102 +221,83 @@
             `).join("");
         }
 
+        function previewQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
         function submitAnswer() {
             const answer = document.querySelector('input[name="answer"]:checked')?.value;
             if (answer) {
                 selectedAnswers[currentQuestionIndex] = answer;
                 document.getElementById(`q${currentQuestionIndex + 1}`).classList.add('answered');
             }
+
             if (currentQuestionIndex < questions.length - 1) {
                 currentQuestionIndex++;
                 loadQuestion(currentQuestionIndex);
             } else {
-                const endTime = Date.now();
-                const timeTaken = Math.round((endTime - startTime) / 1000);
+                const timeTaken = Math.round((Date.now() - startTime) / 1000);
                 generateReport(timeTaken);
             }
         }
-function previewQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        loadQuestion(currentQuestionIndex);
-    }
-}
-function submitAnswer() {
-    const answer = document.querySelector('input[name="answer"]:checked')?.value;
-    if (answer) {
-        selectedAnswers[currentQuestionIndex] = answer;
-        document.getElementById(`q${currentQuestionIndex + 1}`).classList.add('answered');
-    }
 
-    if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        loadQuestion(currentQuestionIndex);
-    } else {
-        const endTime = Date.now();
-        const timeTaken = Math.round((endTime - startTime) / 1000);
-        generateReport(timeTaken);
-    }
-}
-let totalTime = 90; 
-let timerInterval;
-function startTimer() {
-    timerInterval = setInterval(function() {
-        totalTime--;
-        document.getElementById("time").innerText = totalTime;
-
-        if (totalTime <= 0) {
+        function generateReport(timeTaken = 1200) {
             clearInterval(timerInterval);
-            generateReport(); 
-        }
-    }, 1000); 
-}
-startTimer();
-        function generateReport(timeTaken) {
-            const correctAnswers = selectedAnswers.filter((answer, index) => answer === questions[index].correctAnswer).length;
-            let reportHtml = `
+            const correctAnswers = selectedAnswers.filter((ans, i) => ans === questions[i].correctAnswer).length;
+            let html = `
                 <div class="report-container">
-                    <div class="report-header">
-                        <h1>Quiz Report</h1>
-                    </div>
+                    <div class="report-header"><h1>Quiz Report</h1></div>
                     <div class="report-stats">
                         <div>Total Questions: ${questions.length}</div>
-                        <div>Correct Answers: ${correctAnswers}</div>
+                        <div>Correct: ${correctAnswers}</div>
+                        <div>Incorrect: ${questions.length - correctAnswers}</div>
                         <div>Time Taken: ${timeTaken}s</div>
-                        <div>Incorrect Answers: ${questions.length - correctAnswers}</div>
                     </div>
                     <div class="question-summary">
-                        <h2>Question Summary</h2>
                         <table>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Question</th>
-                                    <th>Your Answer</th>
-                                    <th>Correct Answer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th></tr>
             `;
-            questions.forEach((question, index) => {
-                const isCorrect = selectedAnswers[index] === question.correctAnswer;
-                reportHtml += `
+            questions.forEach((q, i) => {
+                const correct = selectedAnswers[i] === q.correctAnswer;
+                html += `
                     <tr>
-                        <td>${index + 1}</td>
-                        <td>${question.question}</td>
-                        <td class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">${selectedAnswers[index] || "No Answer"}</td>
-                        <td>${question.correctAnswer}</td>
+                        <td>${i + 1}</td>
+                        <td>${q.question}</td>
+                        <td class="${correct ? 'correct-answer' : 'wrong-answer'}">${selectedAnswers[i] || "No Answer"}</td>
+                        <td>${q.correctAnswer}</td>
                     </tr>
                 `;
             });
-            reportHtml += `
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            `;
-            document.body.innerHTML = reportHtml;
+            html += `</table></div></div>`;
+            document.body.innerHTML = html;
         }
+
+        // Timer (20 minutes)
+        let totalTime = 20 * 60; // 20 minutes in seconds
+        let timerInterval = setInterval(() => {
+            totalTime--;
+            const hrs = String(Math.floor(totalTime / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((totalTime % 3600) / 60)).padStart(2, '0');
+            const secs = String(totalTime % 60).padStart(2, '0');
+            document.getElementById("time").innerText = `${hrs}:${mins}:${secs}`;
+            if (totalTime <= 0) {
+                generateReport();
+            }
+        }, 1000);
+
+        // Prevent back navigation
+        window.addEventListener("popstate", () => {
+            generateReport();
+        });
+        history.pushState(null, null, location.href);
+        window.addEventListener("beforeunload", (e) => {
+            e.preventDefault();
+            e.returnValue = '';
+            generateReport();
+        });
 
         createQuestionList();
         loadQuestion(currentQuestionIndex);

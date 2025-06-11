@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Log In</title> <!-- Title of the webpage displayed on the browser tab -->
+    <title>Log In</title>
     <style>
         /* General body styles */
         body {
@@ -16,36 +16,6 @@
             overflow: hidden; /* Prevent scrolling on the page */
         }
 
-        /* Header styles for the top section */
-        .header {
-            width: 100%; /* Full width for header */
-            height: 25%; /* Set header height to 25% of viewport */
-            background-color: #4CAF50; /* Green background color */
-            color: #FFD700; /* Gold color for title text */
-            text-align: center; /* Center align the title */
-            display: flex; /* Use flexbox for alignment */
-            align-items: center; /* Center items vertically */
-            justify-content: center; /* Center items horizontally */
-            position: relative; /* Enable positioning for child elements */
-        }
-
-        /* Logo image styles inside the header */
-        .header img {
-            position: absolute; /* Position logo relative to header */
-            top: -15px; /* Add space from the top */
-            left: 20px; /* Add space from the left */
-            height: 200px; /* Set logo height */
-        }
-
-        /* Title (h1) styles inside the header */
-        .header h1 {
-            margin: 0; /* Remove default margin */
-            padding: 60px 0; /* Space above and below the title text */
-            font-size: 48px; /* Large font size for the title */
-            font-weight: bold; /* Make the title bold */
-            text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.8); /* Add shadow for depth */
-        }
-
         /* Form container styles for the login box */
         .form-container {
             width: 100%; /* Full width for responsiveness */
@@ -54,7 +24,7 @@
             padding: 30px; /* Internal padding for spacing */
             border-radius: 10px; /* Rounded corners */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Add shadow for elevation */
-            margin-top: 50px; /* Space between the form and the header */
+            margin-top: 50px; /* Space between the form and the top */
         }
 
         /* Heading inside the form container */
@@ -117,27 +87,31 @@
     </style>
 </head>
 <body>
-    <!-- Header section -->
-    <div class="header">
-        <!-- Logo inside the header -->
-        <img src="QuizMate_WhiteLogo.png" alt="Logo">
-        <!-- Page title -->
-        <h1>ONLINE MCQ EVALUATOR</h1>
-    </div>
-
     <!-- Login form container -->
     <div class="form-container">
         <!-- Form heading -->
         <h2>Log In</h2>
         <!-- Login form -->
-        <form action="loginconnect.php" method="post">
+        <form action="login.php" method="post">
             <!-- Email input field -->
-            <label for="email">Email Id:</label>
-            <input type="email" id="email" name="email" placeholder="Enter Email id" required>
+            <label for="email">Email ID:</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="Enter your email ID" 
+                required 
+                autocomplete="email">
 
             <!-- Password input field -->
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter Password" required>
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Enter your password" 
+                required 
+                autocomplete="current-password">
 
             <!-- Submit button -->
             <button type="submit">Log In</button>

@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Help</title>
+    <meta charset="UTF-8">
+    <title>Help & Support | MCQ Evaluator</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            color: #fff;
+            background-color: #f4f6f8;
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -16,51 +17,52 @@
         }
 
         .help-container {
-            background: #ffffff;
-            color: #333;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+            background-color: #fff;
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 90%;
             text-align: center;
         }
 
         h1 {
             font-size: 32px;
-            color: #4facfe;
-            margin-bottom: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
         }
 
         p {
-            font-size: 18px;
-            margin-bottom: 20px;
-            line-height: 1.8;
+            font-size: 17px;
+            margin-bottom: 25px;
+            color: #555;
         }
 
         ul {
             text-align: left;
             margin: 20px 0;
-            padding: 0;
-            list-style: none;
+            padding-left: 0;
         }
 
         ul li {
-            margin: 10px 0;
             font-size: 16px;
-            background: #f7f9fc;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            background-color: #eef2f6;
+            border-left: 4px solid #3498db;
+            border-radius: 6px;
+            list-style: none;
         }
 
         ul li strong {
-            color: #007BFF;
+            display: block;
+            color: #2c3e50;
+            margin-bottom: 5px;
         }
 
         a {
-            color: #007BFF;
+            color: #2980b9;
             text-decoration: none;
-            font-weight: bold;
         }
 
         a:hover {
@@ -68,36 +70,51 @@
         }
 
         .back-btn {
-            margin-top: 20px;
             display: inline-block;
-            padding: 12px 25px;
-            background: linear-gradient(90deg, #4facfe, #00f2fe);
-            color: white;
+            margin-top: 25px;
+            padding: 12px 28px;
+            background-color: #3498db;
+            color: #fff;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             border: none;
-            border-radius: 30px;
+            border-radius: 25px;
             text-decoration: none;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
         .back-btn:hover {
-            background: linear-gradient(90deg, #00f2fe, #4facfe);
-            transform: scale(1.1);
+            background-color: #2c80b4;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
     <div class="help-container">
-        <h1>Need Help?</h1>
-        <p>We're here to assist you! Follow the guidelines below for a seamless experience:</p>
+        <h1>Help & Support</h1>
+        <p>Welcome to MCQ Evaluator. Find quick solutions below or contact us for further support:</p>
         <ul>
-            <li><strong>Login Issues:</strong> Ensure you’ve entered the correct email and password.</li>
-            <li><strong>Registration:</strong> Fill out all the required fields. Use a valid email address.</li>
-            <li><strong>Subject Selection:</strong> Click on a subject button to proceed with your quiz.</li>
-            <li><strong>Technical Issues:</strong> Clear your browser cache or try accessing the platform in a different browser.</li>
-            <li><strong>Contact Support:</strong> If you encounter any unresolved issues, email us at <a href="mailto:support@mcqevaluator.com">support@mcqevaluator.com</a>.</li>
+            <li>
+                <strong>Login Problems</strong>
+                Please ensure your email and password are correct. Remember, passwords are case-sensitive.
+            </li>
+            <li>
+                <strong>Registration Tips</strong>
+                Use a valid email and fill in all required fields. Check for typos.
+            </li>
+            <li>
+                <strong>Quiz Access</strong>
+                After logging in, click on your subject to begin. Read all instructions carefully.
+            </li>
+            <li>
+                <strong>Technical Issues</strong>
+                Try refreshing the page, clearing browser cache, or using a different browser.
+            </li>
+            <li>
+                <strong>Need More Help?</strong>
+                Contact our team at <a href="mailto:support@mcqevaluator.com">support@mcqevaluator.com</a>.
+            </li>
         </ul>
         <a href="Frontend-MCQ.html" class="back-btn">Back to Home</a>
     </div>
