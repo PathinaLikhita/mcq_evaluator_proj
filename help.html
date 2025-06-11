@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Help</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .help-container {
+            background: #ffffff;
+            color: #333;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #4facfe;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        ul {
+            text-align: left;
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        ul li {
+            margin: 10px 0;
+            font-size: 16px;
+            background: #f7f9fc;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li strong {
+            color: #007BFF;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(90deg, #00f2fe, #4facfe);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="help-container">
+        <h1>Need Help?</h1>
+        <p>We're here to assist you! Follow the guidelines below for a seamless experience:</p>
+        <ul>
+            <li><strong>Login Issues:</strong> Ensure you’ve entered the correct email and password.</li>
+            <li><strong>Registration:</strong> Fill out all the required fields. Use a valid email address.</li>
+            <li><strong>Subject Selection:</strong> Click on a subject button to proceed with your quiz.</li>
+            <li><strong>Technical Issues:</strong> Clear your browser cache or try accessing the platform in a different browser.</li>
+            <li><strong>Contact Support:</strong> If you encounter any unresolved issues, email us at <a href="mailto:support@mcqevaluator.com">support@mcqevaluator.com</a>.</li>
+        </ul>
+        <a href="Frontend-MCQ.html" class="back-btn">Back to Home</a>
+    </div>
+</body>
+</html>

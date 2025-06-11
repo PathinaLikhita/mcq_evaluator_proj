@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('Quizbg.1') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+            background: rgba(223, 229, 232, 0.8);
+            padding: 60px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: row;
+        }
+        .question-list-container {
+            width: 120px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .question-list li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 40px;
+        }
+        .question-list li:hover {
+            background-color: #218838;
+        }
+        .question-list li.answered {
+            background-color: #add8e6;
+            pointer-events: none;
+        }
+        .quiz-container {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+        .quiz-content {
+            margin-left: 150px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .timer {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 20px;
+            color: #ff4500;
+        }
+        .question {
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .options input:disabled + label {
+            color: gray;
+        }
+        .options input {
+            margin-right: 10px;
+        }
+        .submit-button, .preview-button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            text-align: center;
+            width: 45%;
+            margin-top: 20px;
+        }
+        .submit-button {
+            background-color: #28a745;
+        }
+        .preview-button {
+            background-color: #ffc107;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+        .preview-button:hover {
+            background-color: #e0a800;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .report-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .report-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .report-header h1 {
+            color: #333;
+        }
+        .report-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .report-stats div {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        .question-summary {
+            margin-top: 20px;
+        }
+        .question-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .question-summary th, .question-summary td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .question-summary th {
+            background-color: #f8f9fa;
+        }
+        .correct-answer {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .wrong-answer {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question-list-container">
+            <ul id="question-list" class="question-list">
+            </ul>
+        </div>
+        <div class="quiz-container">
+            <div class="quiz-content">
+                <h1>Quiz App</h1>
+                <div class="timer">Time Left: <span id="time">90</span>s</div>
+                <form id="quiz-form">
+                    <div class="question" id="question"></div>
+                    <div class="options"></div>
+                    <div class="buttons-container">
+                        <button type="button" class="preview-button" onclick="previewQuestion()">Previous</button>
+                        <button type="button" class="submit-button" onclick="submitAnswer()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        const questions = [
+            { question: "What does SQL stand for?", options: ["Sequential Query Language", "Structured Query Language", "Simple Query Language", "Server Query Language"], correctAnswer: "Structured Query Language" },
+            { question: "Which SQL command is used to retrieve data from a database?", options: ["GET", "SELECT", "FETCH", "EXTRACT"], correctAnswer: "SELECT" },
+            { question: "What is a primary key?", options: ["A key that unlocks the database", "A unique identifier for a row in a table", "A key used for encrypting data", "A key that joins two tables"], correctAnswer: "A unique identifier for a row in a table" },
+            { question: "Which SQL statement is used to insert new data into a table?", options: ["INSERT INTO", "ADD DATA", "ADD ROW", "INPUT DATA"], correctAnswer: "INSERT INTO" },
+            { question: "What is the purpose of the WHERE clause?", options: ["To specify the database location", "To filter records based on a condition", "To order the results", "To group rows"], correctAnswer: "To filter records based on a condition" },
+            { question: "Which SQL function is used to count the number of rows in a table?", options: ["COUNT()", "TOTAL()", "SUM()", "LENGTH()"], correctAnswer: "COUNT()" },
+            { question: "Which SQL keyword is used to sort the result set?", options: ["ORDER", "ARRANGE", "SORT", "ORDER BY"], correctAnswer: "ORDER BY" },
+            { question: "Which operator is used to compare a value with a set of values?", options: ["BETWEEN", "IN", "LIKE", "IS"], correctAnswer: "IN" },
+            { question: "What is a foreign key?", options: ["A key used to encrypt sensitive data", "A key that links two tables together", "A unique key in a table", "A column used for indexing"], correctAnswer: "A key that links two tables together" },
+            { question: "Which SQL clause is used to remove duplicates from a result set?", options: ["DISTINCT", "UNIQUE", "REMOVE", "DELETE"], correctAnswer: "DISTINCT" },
+            { question: "What does the HAVING clause do?", options: ["Filters grouped data", "Filters rows before grouping", "Orders grouped data", "Deletes grouped data"], correctAnswer: "Filters grouped data" },
+            { question: "Which statement is used to update data in a table?", options: ["MODIFY", "UPDATE", "ALTER", "CHANGE"], correctAnswer: "UPDATE" },
+            { question: "What is the default sorting order in SQL?", options: ["Descending", "Ascending", "Random", "Alphabetical"], correctAnswer: "Ascending" },
+            { question: "Which SQL statement is used to delete a table?", options: ["DELETE", "DROP", "REMOVE", "CLEAR"], correctAnswer: "DROP" },
+            { question: "What does the LIMIT clause do?", options: ["Restricts the number of rows returned by a query", "Specifies a range of data to query", "Defines the maximum size of a table", "Limits the number of columns in a query"], correctAnswer: "Restricts the number of rows returned by a query" },
+            { question: "What does the UNION operator do?", options: ["Combines rows from two tables, removing duplicates", "Joins rows from two tables", "Updates data in two tables simultaneously", "Deletes duplicate rows in a table"], correctAnswer: "Combines rows from two tables, removing duplicates" },
+            { question: "Which function returns the current date in SQL?", options: ["CURRENT_DATE()", "GETDATE()", "NOW()", "TODAY()"], correctAnswer: "CURRENT_DATE()" },
+            { question: "Which function is used to calculate the average of a column?", options: ["AVG()", "MEAN()", "MEDIAN()", "SUM()"], correctAnswer: "AVG()" },
+            { question: "What does the SQL operator LIKE do?", options: ["Filters rows with exact matches", "Matches a pattern in a string", "Joins two strings together", "Compares numerical values"], correctAnswer: "Matches a pattern in a string" },
+            { question: "How do you concatenate two strings in SQL?", options: ["With the CONCAT() function", "Using the + operator", "With the JOIN() function", "Using the MERGE() function"], correctAnswer: "With the CONCAT() function" },
+        ];
+        let currentQuestionIndex = 0;
+        let selectedAnswers = Array(questions.length).fill(null);
+        let startTime = Date.now();
+
+        function createQuestionList() {
+            const questionList = document.getElementById("question-list");
+            questions.forEach((_, index) => {
+                const li = document.createElement("li");
+                li.id = `q${index + 1}`;
+                li.innerText = index + 1;
+                li.onclick = () => loadQuestion(index);
+                questionList.appendChild(li);
+            });
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const questionData = questions[index];
+            document.getElementById("question").innerHTML = `<b>${questionData.question}</b>`;
+            const optionsContainer = document.querySelector(".options");
+            optionsContainer.innerHTML = questionData.options.map(option => `
+                <label>
+                    <input type="radio" name="answer" value="${option}" ${selectedAnswers[index] === option ? 'checked' : ''}>
+                    ${option}
+                </label>
+            `).join("");
+        }
+
+        function submitAnswer() {
+            const answer = document.querySelector('input[name="answer"]:checked')?.value;
+            if (answer) {
+                selectedAnswers[currentQuestionIndex] = answer;
+                document.getElementById(`q${currentQuestionIndex + 1}`).classList.add('answered');
+            }
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                const endTime = Date.now();
+                const timeTaken = Math.round((endTime - startTime) / 1000);
+                generateReport(timeTaken);
+            }
+        }
+function previewQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion(currentQuestionIndex);
+    }
+}
+function submitAnswer() {
+    const answer = document.querySelector('input[name="answer"]:checked')?.value;
+    if (answer) {
+        selectedAnswers[currentQuestionIndex] = answer;
+        document.getElementById(`q${currentQuestionIndex + 1}`).classList.add('answered');
+    }
+
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion(currentQuestionIndex);
+    } else {
+        const endTime = Date.now();
+        const timeTaken = Math.round((endTime - startTime) / 1000);
+        generateReport(timeTaken);
+    }
+}
+let totalTime = 90; 
+let timerInterval;
+function startTimer() {
+    timerInterval = setInterval(function() {
+        totalTime--;
+        document.getElementById("time").innerText = totalTime;
+
+        if (totalTime <= 0) {
+            clearInterval(timerInterval);
+            generateReport(); 
+        }
+    }, 1000); 
+}
+startTimer();
+        function generateReport(timeTaken) {
+            const correctAnswers = selectedAnswers.filter((answer, index) => answer === questions[index].correctAnswer).length;
+            let reportHtml = `
+                <div class="report-container">
+                    <div class="report-header">
+                        <h1>Quiz Report</h1>
+                    </div>
+                    <div class="report-stats">
+                        <div>Total Questions: ${questions.length}</div>
+                        <div>Correct Answers: ${correctAnswers}</div>
+                        <div>Time Taken: ${timeTaken}s</div>
+                        <div>Incorrect Answers: ${questions.length - correctAnswers}</div>
+                    </div>
+                    <div class="question-summary">
+                        <h2>Question Summary</h2>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Question</th>
+                                    <th>Your Answer</th>
+                                    <th>Correct Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+            questions.forEach((question, index) => {
+                const isCorrect = selectedAnswers[index] === question.correctAnswer;
+                reportHtml += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${question.question}</td>
+                        <td class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">${selectedAnswers[index] || "No Answer"}</td>
+                        <td>${question.correctAnswer}</td>
+                    </tr>
+                `;
+            });
+            reportHtml += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            document.body.innerHTML = reportHtml;
+        }
+
+        createQuestionList();
+        loadQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>

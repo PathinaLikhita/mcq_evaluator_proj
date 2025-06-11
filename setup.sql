@@ -1,0 +1,20 @@
+CREATE DATABASE mcq_evaluator;
+
+USE mcq_evaluator;
+
+CREATE TABLE register (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    fname VARCHAR(50) NOT NULL,
+    lname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    mobileNumber VARCHAR(15) NOT NULL
+);
+
+
+CREATE TABLE login (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
