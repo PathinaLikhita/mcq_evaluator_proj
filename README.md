@@ -23,7 +23,7 @@ The **MCQ Evaluator System** is a web-based application designed to simplify qui
 ## Project Structure
 
 ### Frontend Files
-- **`Index.html`**: Main landing page of the application.
+- **`Frontend-MCQ.html`**: Main landing page of the application.
 - **Quiz Pages**: Separate HTML files for each subject quiz.
   - `cppquiz.html`, `pythonquiz.html`, `sqlquiz.html`, etc.
 - **`Rules.html`**: Displays the guidelines and rules before starting a quiz.
