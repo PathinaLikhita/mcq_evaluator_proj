@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('Quizbg.1') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            background: rgba(223, 229, 232, 0.8);
+            padding: 40px;
+            display: flex;
+            flex-direction: row;
+        }
+        .question-list-container {
+            width: 200px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .question-list li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .question-list li:hover {
+            background-color: #218838;
+        }
+        .question-list li.answered {
+            background-color: #add8e6;
+            pointer-events: none;
+        }
+        .quiz-container {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+        .quiz-content {
+            margin-left: 150px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .timer {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 22px;
+            color: #ff4500;
+        }
+        .question {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .submit-button, .preview-button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            width: 45%;
+            margin-top: 20px;
+        }
+        .submit-button {
+            background-color: #28a745;
+        }
+        .preview-button {
+            background-color: #ffc107;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+        .preview-button:hover {
+            background-color: #e0a800;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .report-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+        }
+        .report-header h1 {
+            text-align: center;
+            color: #333;
+        }
+        .report-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .report-stats div {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        .question-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .question-summary th, .question-summary td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .correct-answer {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .wrong-answer {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question-list-container">
+            <ul id="question-list" class="question-list"></ul>
+        </div>
+        <div class="quiz-container">
+            <div class="quiz-content">
+                <h1>Quiz App</h1>
+                <div class="timer">Time Left: <span id="time">00:20:00</span></div>
+                <form id="quiz-form">
+                    <div class="question" id="question"></div>
+                    <div class="options"></div>
+                    <div class="buttons-container">
+                        <button type="button" class="preview-button" onclick="previewQuestion()">Previous</button>
+                        <button type="button" class="submit-button" onclick="submitAnswer()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         const questions = [
+            { question: "What is JavaScript?", options: ["A programming language", "A type of coffee", "A style sheet language", "A markup language"], correctAnswer: "A programming language" },
+    { question: "Which company developed JavaScript?", options: ["Microsoft", "Mozilla", "Netscape", "Google"], correctAnswer: "Netscape" },
+    { question: "Which symbol is used for comments in JavaScript?", options: ["//", "/* */", "<!-- -->", "#"], correctAnswer: "//" },
+    { question: "What is the correct syntax for a JavaScript function?", options: ["function myFunction() {}", "def myFunction()", "create myFunction()", "method myFunction()"], correctAnswer: "function myFunction() {}" },
+    { question: "How do you declare a variable in JavaScript?", options: ["var", "let", "const", "All of these"], correctAnswer: "All of these" },
+    { question: "Which method is used to parse a JSON string into a JavaScript object?", options: ["JSON.parse()", "JSON.stringify()", "parseJSON()", "stringifyJSON()"], correctAnswer: "JSON.parse()" },
+    { question: "Which keyword is used to define a class in JavaScript?", options: ["class", "function", "object", "new"], correctAnswer: "class" },
+    { question: "What is the output of 'typeof NaN'?", options: ["number", "NaN", "undefined", "string"], correctAnswer: "number" },
+    { question: "Which method is used to add an element to the end of an array?", options: ["push()", "pop()", "unshift()", "concat()"], correctAnswer: "push()" },
+    { question: "How do you write an if-else statement in JavaScript?", options: ["if (condition) {} else {}", "if condition {} else {}", "if condition then {} else {}", "if (condition) {} elseif {}"], correctAnswer: "if (condition) {} else {}" },
+    { question: "What is the result of '2' + 2 in JavaScript?", options: ["'22'", "4", "NaN", "undefined"], correctAnswer: "'22'" },
+    { question: "How do you find the length of a string in JavaScript?", options: ["string.length", "string.size()", "string.len()", "string.getLength()"], correctAnswer: "string.length" },
+    { question: "What is the purpose of the 'this' keyword in JavaScript?", options: ["Refers to the current object", "Declares a variable", "Defines a new function", "Creates an object"], correctAnswer: "Refers to the current object" },
+    { question: "Which statement is used to stop a loop in JavaScript?", options: ["break", "stop", "exit", "terminate"], correctAnswer: "break" },
+    { question: "What does '===' mean in JavaScript?", options: ["Strict equality comparison", "Assignment", "Type conversion equality", "None of these"], correctAnswer: "Strict equality comparison" },
+    { question: "How do you write a single-line comment in JavaScript?", options: ["// comment", "/* comment */", "# comment", "-- comment"], correctAnswer: "// comment" },
+    { question: "What is the output of console.log(typeof null)?", options: ["object", "null", "undefined", "number"], correctAnswer: "object" },
+    { question: "What does the 'event.preventDefault()' method do?", options: ["Prevents the default action of an event", "Stops event propagation", "Cancels an event", "None of these"], correctAnswer: "Prevents the default action of an event" },
+    { question: "Which method is used to call a function after a specified delay?", options: ["setTimeout()", "setInterval()", "setDelay()", "delayFunction()"], correctAnswer: "setTimeout()" },
+    { question: "What is the purpose of the 'async' keyword in JavaScript?", options: ["To define an asynchronous function", "To pause code execution", "To create a callback function", "To handle exceptions"], correctAnswer: "To define an asynchronous function" },
+ ];
+
+        let currentQuestionIndex = 0;
+        let selectedAnswers = Array(questions.length).fill(null);
+        let startTime = Date.now();
+
+        function createQuestionList() {
+            const questionList = document.getElementById("question-list");
+            questions.forEach((_, index) => {
+                const li = document.createElement("li");
+                li.id = `q${index + 1}`;
+                li.innerText = index + 1;
+                li.onclick = () => loadQuestion(index);
+                questionList.appendChild(li);
+            });
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const questionData = questions[index];
+            document.getElementById("question").innerHTML = `<b>${questionData.question}</b>`;
+            const optionsContainer = document.querySelector(".options");
+            optionsContainer.innerHTML = questionData.options.map(option => `
+                <label>
+                    <input type="radio" name="answer" value="${option}" ${selectedAnswers[index] === option ? 'checked' : ''}>
+                    ${option}
+                </label>
+            `).join("");
+        }
+
+        function previewQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitAnswer() {
+            const answer = document.querySelector('input[name="answer"]:checked')?.value;
+            if (answer) {
+                selectedAnswers[currentQuestionIndex] = answer;
+                document.getElementById(`q${currentQuestionIndex + 1}`).classList.add('answered');
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                const timeTaken = Math.round((Date.now() - startTime) / 1000);
+                generateReport(timeTaken);
+            }
+        }
+
+        function generateReport(timeTaken = 1200) {
+            clearInterval(timerInterval);
+            const correctAnswers = selectedAnswers.filter((ans, i) => ans === questions[i].correctAnswer).length;
+            let html = `
+                <div class="report-container">
+                    <div class="report-header"><h1>Quiz Report</h1></div>
+                    <div class="report-stats">
+                        <div>Total Questions: ${questions.length}</div>
+                        <div>Correct: ${correctAnswers}</div>
+                        <div>Incorrect: ${questions.length - correctAnswers}</div>
+                        <div>Time Taken: ${timeTaken}s</div>
+                    </div>
+                    <div class="question-summary">
+                        <table>
+                            <tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th></tr>
+            `;
+            questions.forEach((q, i) => {
+                const correct = selectedAnswers[i] === q.correctAnswer;
+                html += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${q.question}</td>
+                        <td class="${correct ? 'correct-answer' : 'wrong-answer'}">${selectedAnswers[i] || "No Answer"}</td>
+                        <td>${q.correctAnswer}</td>
+                    </tr>
+                `;
+            });
+            html += `</table></div></div>`;
+            document.body.innerHTML = html;
+        }
+
+        // Timer (20 minutes)
+        let totalTime = 20 * 60; // 20 minutes in seconds
+        let timerInterval = setInterval(() => {
+            totalTime--;
+            const hrs = String(Math.floor(totalTime / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((totalTime % 3600) / 60)).padStart(2, '0');
+            const secs = String(totalTime % 60).padStart(2, '0');
+            document.getElementById("time").innerText = `${hrs}:${mins}:${secs}`;
+            if (totalTime <= 0) {
+                generateReport();
+            }
+        }, 1000);
+
+        window.addEventListener("beforeunload", (e) => {
+        if (!isQuizComplete()) {
+            e.preventDefault();
+            e.returnValue = 'Warning: If you leave or refresh the page, your progress will be lost!';
+        }
+    });
+
+    function isQuizComplete() {
+        return selectedAnswers.every(answer => answer !== null);
+    }
+
+    history.pushState(null, null, location.href);
+    window.addEventListener("popstate", (e) => {
+        if (!isQuizComplete()) {
+            alert("Warning: You cannot go back before completing the quiz!");
+            history.pushState(null, null, location.href); // Prevent navigation
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden" && !isQuizComplete()) {
+            alert("Warning: You switched tabs during the quiz! Please stay on the page.");
+        }
+    });
+
+
+        createQuestionList();
+        loadQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>

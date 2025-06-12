@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SQL Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('Quizbg.1') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 100%;
+            height: 100vh;
+            box-sizing: border-box;
+            background: rgba(223, 229, 232, 0.8);
+            padding: 40px;
+            display: flex;
+            flex-direction: row;
+        }
+        .question-list-container {
+            width: 200px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .question-list li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            border: 2px solid black;
+            color: black;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .question-list li:hover {
+            background-color: #218838;
+        }
+        .question-list li.answered {
+            background-color: #add8e6;
+            pointer-events: none;
+        }
+        .quiz-container {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+        .quiz-content {
+            margin-left: 150px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .timer {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 22px;
+            color: #ff4500;
+        }
+        .question {
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .submit-button, .preview-button {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            width: 45%;
+            margin-top: 20px;
+        }
+        .submit-button {
+            background-color: #28a745;
+        }
+        .preview-button {
+            background-color: #ffc107;
+        }
+        .submit-button:hover {
+            background-color: #218838;
+        }
+        .preview-button:hover {
+            background-color: #e0a800;
+        }
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .report-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: white;
+        }
+        .report-header h1 {
+            text-align: center;
+            color: #333;
+        }
+        .report-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 18px;
+        }
+        .report-stats div {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+        }
+        .question-summary table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .question-summary th, .question-summary td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        .correct-answer {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .wrong-answer {
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="question-list-container">
+            <ul id="question-list" class="question-list"></ul>
+        </div>
+        <div class="quiz-container">
+            <div class="quiz-content">
+                <h1>Quiz App</h1>
+                <div class="timer">Time Left: <span id="time">00:20:00</span></div>
+                <form id="quiz-form">
+                    <div class="question" id="question"></div>
+                    <div class="options"></div>
+                    <div class="buttons-container">
+                        <button type="button" class="preview-button" onclick="previewQuestion()">Previous</button>
+                        <button type="button" class="submit-button" onclick="submitAnswer()">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+         const questions = [
+            { question: "What is the correct extension for Python files?", options: [".py", ".pt", ".pyt", ".python"], correctAnswer: ".py" },
+    { question: "Which keyword is used to define a function in Python?", options: ["def", "func", "function", "lambda"], correctAnswer: "def" },
+    { question: "How do you start a comment in Python?", options: ["#", "//", "/*", "--"], correctAnswer: "#" },
+    { question: "What is the output of len('Hello')?", options: ["5", "4", "6", "Error"], correctAnswer: "5" },
+    { question: "Which function is used to output text to the console?", options: ["print()", "echo()", "write()", "output()"], correctAnswer: "print()" },
+    { question: "What is the correct way to create a list in Python?", options: ["[1, 2, 3]", "{1, 2, 3}", "(1, 2, 3)", "<1, 2, 3>"], correctAnswer: "[1, 2, 3]" },
+    { question: "Which keyword is used to check a condition in Python?", options: ["if", "check", "for", "condition"], correctAnswer: "if" },
+    { question: "What is the output of 2 ** 3 in Python?", options: ["8", "6", "9", "Error"], correctAnswer: "8" },
+    { question: "Which module is used to generate random numbers in Python?", options: ["random", "math", "numbers", "os"], correctAnswer: "random" },
+    { question: "What is the purpose of the 'pass' statement in Python?", options: ["To do nothing", "To break a loop", "To pause execution", "To skip an iteration"], correctAnswer: "To do nothing" },
+    { question: "How do you create a dictionary in Python?", options: ["{'key': 'value'}", "['key', 'value']", "('key', 'value')", "{key, value}"], correctAnswer: "{'key': 'value'}" },
+    { question: "What is the correct syntax for a for loop in Python?", options: ["for i in range(5):", "for(i=0; i<5; i++)", "foreach i in range(5):", "loop i to 5"], correctAnswer: "for i in range(5):" },
+    { question: "What is the output of 'Hello'.lower()?", options: ["hello", "HELLO", "Hello", "Error"], correctAnswer: "hello" },
+    { question: "Which keyword is used to handle exceptions in Python?", options: ["try", "catch", "handle", "except"], correctAnswer: "try" },
+    { question: "What is the output of type(42)?", options: ["<class 'int'>", "<class 'float'>", "<class 'str'>", "Error"], correctAnswer: "<class 'int'>" },
+    { question: "How do you import a module in Python?", options: ["import module_name", "include module_name", "load module_name", "require module_name"], correctAnswer: "import module_name" },
+    { question: "Which data type is mutable in Python?", options: ["list", "tuple", "string", "integer"], correctAnswer: "list" },
+    { question: "What does the 'open()' function do in Python?", options: ["Opens a file", "Starts a program", "Loads a module", "Creates a directory"], correctAnswer: "Opens a file" },
+    { question: "What is the output of 7 // 2 in Python?", options: ["3", "3.5", "4", "Error"], correctAnswer: "3" },
+    { question: "Which keyword is used to create a class in Python?", options: ["class", "def", "struct", "object"], correctAnswer: "class" },
+];
+
+        let currentQuestionIndex = 0;
+        let selectedAnswers = Array(questions.length).fill(null);
+        let startTime = Date.now();
+
+        function createQuestionList() {
+            const questionList = document.getElementById("question-list");
+            questions.forEach((_, index) => {
+                const li = document.createElement("li");
+                li.id = `q${index + 1}`;
+                li.innerText = index + 1;
+                li.onclick = () => loadQuestion(index);
+                questionList.appendChild(li);
+            });
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const questionData = questions[index];
+            document.getElementById("question").innerHTML = `<b>${questionData.question}</b>`;
+            const optionsContainer = document.querySelector(".options");
+            optionsContainer.innerHTML = questionData.options.map(option => `
+                <label>
+                    <input type="radio" name="answer" value="${option}" ${selectedAnswers[index] === option ? 'checked' : ''}>
+                    ${option}
+                </label>
+            `).join("");
+        }
+
+        function previewQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function submitAnswer() {
+            const answer = document.querySelector('input[name="answer"]:checked')?.value;
+            if (answer) {
+                selectedAnswers[currentQuestionIndex] = answer;
+                document.getElementById(`q${currentQuestionIndex + 1}`).classList.add('answered');
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion(currentQuestionIndex);
+            } else {
+                const timeTaken = Math.round((Date.now() - startTime) / 1000);
+                generateReport(timeTaken);
+            }
+        }
+
+        function generateReport(timeTaken = 1200) {
+            clearInterval(timerInterval);
+            const correctAnswers = selectedAnswers.filter((ans, i) => ans === questions[i].correctAnswer).length;
+            let html = `
+                <div class="report-container">
+                    <div class="report-header"><h1>Quiz Report</h1></div>
+                    <div class="report-stats">
+                        <div>Total Questions: ${questions.length}</div>
+                        <div>Correct: ${correctAnswers}</div>
+                        <div>Incorrect: ${questions.length - correctAnswers}</div>
+                        <div>Time Taken: ${timeTaken}s</div>
+                    </div>
+                    <div class="question-summary">
+                        <table>
+                            <tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th></tr>
+            `;
+            questions.forEach((q, i) => {
+                const correct = selectedAnswers[i] === q.correctAnswer;
+                html += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${q.question}</td>
+                        <td class="${correct ? 'correct-answer' : 'wrong-answer'}">${selectedAnswers[i] || "No Answer"}</td>
+                        <td>${q.correctAnswer}</td>
+                    </tr>
+                `;
+            });
+            html += `</table></div></div>`;
+            document.body.innerHTML = html;
+        }
+
+        // Timer (20 minutes)
+        let totalTime = 20 * 60; // 20 minutes in seconds
+        let timerInterval = setInterval(() => {
+            totalTime--;
+            const hrs = String(Math.floor(totalTime / 3600)).padStart(2, '0');
+            const mins = String(Math.floor((totalTime % 3600) / 60)).padStart(2, '0');
+            const secs = String(totalTime % 60).padStart(2, '0');
+            document.getElementById("time").innerText = `${hrs}:${mins}:${secs}`;
+            if (totalTime <= 0) {
+                generateReport();
+            }
+        }, 1000);
+
+        window.addEventListener("beforeunload", (e) => {
+        if (!isQuizComplete()) {
+            e.preventDefault();
+            e.returnValue = 'Warning: If you leave or refresh the page, your progress will be lost!';
+        }
+    });
+
+    function isQuizComplete() {
+        return selectedAnswers.every(answer => answer !== null);
+    }
+
+    history.pushState(null, null, location.href);
+    window.addEventListener("popstate", (e) => {
+        if (!isQuizComplete()) {
+            alert("Warning: You cannot go back before completing the quiz!");
+            history.pushState(null, null, location.href); // Prevent navigation
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden" && !isQuizComplete()) {
+            alert("Warning: You switched tabs during the quiz! Please stay on the page.");
+        }
+    });
+
+
+        createQuestionList();
+        loadQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>
+

@@ -6,7 +6,7 @@
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f4f9; color: #333;">
     <div style="max-width: 800px; margin: 50px auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); padding: 20px;">
         <h1 style="text-align: center; color: #f20f9f;">Hello, <span id="welcomeMessage">Guest</span></h1>
-        <p style="font-size: 18px; margin: 20px 0;color: #4412a0; line-height: 1.6;">
+        <p style="font-size: 18px; margin: 20px 0; color: #4412a0; line-height: 1.6;">
             <b>Please review the examination guidelines carefully before proceeding:</b>
         </p>
         <ul style="font-size: 16px; line-height: 1.8; padding-left: 20px;">
@@ -23,7 +23,7 @@
             <li>The report includes your marks and any suspicious activities during the assessment.</li>
         </ul>
         <div style="text-align: center; margin-top: 20px;">
-            <a href="quiz.html" id="startExamLink" style="text-decoration: none; font-size: 18px;">
+            <a id="startExamLink" style="text-decoration: none; font-size: 18px;">
                 <button style="padding: 10px 20px; font-size: 16px; color: #ffffff; background-color: #28A745; border: none; border-radius: 5px; cursor: pointer;">
                     Start Exam
                 </button>
@@ -39,13 +39,30 @@
             } else {
                 alert('Please log in first.');
                 window.location.href = 'login.html';
+                return;
             }
 
-            // Optional: Dynamically set the quiz page based on a subject
+            // Subject mapping
+            const subjectToFileMap = {
+                HTML: "htmlquiz.html",
+                CSS: "cssquiz.html",
+                JavaScript: "jsquiz.html",
+                SQL: "sqlquiz.html",
+                C: "cquiz.html",
+                DSA: "dsaquiz.html",
+                Python: "pythonquiz.html",
+                CPP: "cppquiz.html"
+            };
+
+            // Retrieve the subject from the query parameter
             const urlParams = new URLSearchParams(window.location.search);
             const subject = urlParams.get('subject');
-            if (subject) {
-                document.getElementById('startExamLink').href = 'quiz.html'; // Always point to quiz.html
+
+            if (subject && subjectToFileMap[subject]) {
+                document.getElementById('startExamLink').href = subjectToFileMap[subject];
+            } else {
+                alert("No valid subject selected. Redirecting to subject selection...");
+                window.location.href = "subject_selection.html";
             }
         });
     </script>

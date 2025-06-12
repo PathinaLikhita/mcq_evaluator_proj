@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html>
 <head>
-    <title>Quiz</title>
+    <title>SQL Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -171,27 +172,27 @@
 
     <script>
          const questions = [
-            { question: "What does SQL stand for?", options: ["Sequential Query Language", "Structured Query Language", "Simple Query Language", "Server Query Language"], correctAnswer: "Structured Query Language" },
-            { question: "Which SQL command is used to retrieve data from a database?", options: ["GET", "SELECT", "FETCH", "EXTRACT"], correctAnswer: "SELECT" },
-            { question: "What is a primary key?", options: ["A key that unlocks the database", "A unique identifier for a row in a table", "A key used for encrypting data", "A key that joins two tables"], correctAnswer: "A unique identifier for a row in a table" },
-            { question: "Which SQL statement is used to insert new data into a table?", options: ["INSERT INTO", "ADD DATA", "ADD ROW", "INPUT DATA"], correctAnswer: "INSERT INTO" },
-            { question: "What is the purpose of the WHERE clause?", options: ["To specify the database location", "To filter records based on a condition", "To order the results", "To group rows"], correctAnswer: "To filter records based on a condition" },
-            { question: "Which SQL function is used to count the number of rows in a table?", options: ["COUNT()", "TOTAL()", "SUM()", "LENGTH()"], correctAnswer: "COUNT()" },
-            { question: "Which SQL keyword is used to sort the result set?", options: ["ORDER", "ARRANGE", "SORT", "ORDER BY"], correctAnswer: "ORDER BY" },
-            { question: "Which operator is used to compare a value with a set of values?", options: ["BETWEEN", "IN", "LIKE", "IS"], correctAnswer: "IN" },
-            { question: "What is a foreign key?", options: ["A key used to encrypt sensitive data", "A key that links two tables together", "A unique key in a table", "A column used for indexing"], correctAnswer: "A key that links two tables together" },
-            { question: "Which SQL clause is used to remove duplicates from a result set?", options: ["DISTINCT", "UNIQUE", "REMOVE", "DELETE"], correctAnswer: "DISTINCT" },
-            { question: "What does the HAVING clause do?", options: ["Filters grouped data", "Filters rows before grouping", "Orders grouped data", "Deletes grouped data"], correctAnswer: "Filters grouped data" },
-            { question: "Which statement is used to update data in a table?", options: ["MODIFY", "UPDATE", "ALTER", "CHANGE"], correctAnswer: "UPDATE" },
-            { question: "What is the default sorting order in SQL?", options: ["Descending", "Ascending", "Random", "Alphabetical"], correctAnswer: "Ascending" },
-            { question: "Which SQL statement is used to delete a table?", options: ["DELETE", "DROP", "REMOVE", "CLEAR"], correctAnswer: "DROP" },
-            { question: "What does the LIMIT clause do?", options: ["Restricts the number of rows returned by a query", "Specifies a range of data to query", "Defines the maximum size of a table", "Limits the number of columns in a query"], correctAnswer: "Restricts the number of rows returned by a query" },
-            { question: "What does the UNION operator do?", options: ["Combines rows from two tables, removing duplicates", "Joins rows from two tables", "Updates data in two tables simultaneously", "Deletes duplicate rows in a table"], correctAnswer: "Combines rows from two tables, removing duplicates" },
-            { question: "Which function returns the current date in SQL?", options: ["CURRENT_DATE()", "GETDATE()", "NOW()", "TODAY()"], correctAnswer: "CURRENT_DATE()" },
-            { question: "Which function is used to calculate the average of a column?", options: ["AVG()", "MEAN()", "MEDIAN()", "SUM()"], correctAnswer: "AVG()" },
-            { question: "What does the SQL operator LIKE do?", options: ["Filters rows with exact matches", "Matches a pattern in a string", "Joins two strings together", "Compares numerical values"], correctAnswer: "Matches a pattern in a string" },
-            { question: "How do you concatenate two strings in SQL?", options: ["With the CONCAT() function", "Using the + operator", "With the JOIN() function", "Using the MERGE() function"], correctAnswer: "With the CONCAT() function" },
-        ];
+            { question: "Which keyword is used to declare a variable in C?", options: ["int", "var", "let", "declare"], correctAnswer: "int" },
+    { question: "What is the correct syntax to print 'Hello, World!' in C?", options: ["printf('Hello, World!');", "cout << 'Hello, World!';", "System.out.println('Hello, World!');", "print('Hello, World!');"], correctAnswer: "printf('Hello, World!');" },
+    { question: "Which symbol is used to comment a single line in C?", options: ["//", "/*", "#", "--"], correctAnswer: "//" },
+    { question: "What is the size of the int data type in C?", options: ["4 bytes", "2 bytes", "8 bytes", "1 byte"], correctAnswer: "4 bytes" },
+    { question: "Which function is used to read a string in C?", options: ["gets()", "scanf()", "cin", "input()"], correctAnswer: "gets()" },
+    { question: "Which header file is essential for using printf and scanf functions?", options: ["<stdio.h>", "<conio.h>", "<string.h>", "<math.h>"], correctAnswer: "<stdio.h>" },
+    { question: "What is the default return type of the main function in C?", options: ["int", "void", "float", "char"], correctAnswer: "int" },
+    { question: "Which operator is used to access the value at a memory address?", options: ["*", "&", "#", "$"], correctAnswer: "*" },
+    { question: "What is a pointer in C?", options: ["A variable that stores the address of another variable", "A variable used to perform arithmetic operations", "A function that points to a variable", "An operator used for bit manipulation"], correctAnswer: "A variable that stores the address of another variable" },
+    { question: "What is the use of the break statement in C?", options: ["To exit from a loop or switch", "To terminate the program", "To pause the execution", "To move to the next iteration"], correctAnswer: "To exit from a loop or switch" },
+    { question: "Which keyword is used to define a constant in C?", options: ["const", "final", "immutable", "constant"], correctAnswer: "const" },
+    { question: "Which loop is guaranteed to execute at least once?", options: ["do-while loop", "while loop", "for loop", "None of the above"], correctAnswer: "do-while loop" },
+    { question: "What does the continue statement do in a loop?", options: ["Skips the current iteration and moves to the next", "Terminates the loop", "Ends the program", "Skips to the end of the loop"], correctAnswer: "Skips the current iteration and moves to the next" },
+    { question: "What is the value of an uninitialized variable in C?", options: ["Undefined", "0", "Garbage value", "null"], correctAnswer: "Undefined" },
+    { question: "Which function is used to find the length of a string?", options: ["strlen()", "size()", "length()", "count()"], correctAnswer: "strlen()" },
+    { question: "What is the output of 5/2 in C?", options: ["2", "2.5", "3", "Error"], correctAnswer: "2" },
+    { question: "What is the purpose of the #include directive in C?", options: ["To include header files", "To declare variables", "To define functions", "To import libraries"], correctAnswer: "To include header files" },
+    { question: "Which keyword is used to allocate memory dynamically?", options: ["malloc", "new", "allocate", "dynamic"], correctAnswer: "malloc" },
+    { question: "Which operator is used for bitwise AND in C?", options: ["&", "|", "^", "&&"], correctAnswer: "&" },
+    { question: "What is the result of the expression sizeof(int) in C?", options: ["Size of an integer type in bytes", "Size of the memory address", "Size of the program", "Size of the compiler"], correctAnswer: "Size of an integer type in bytes" },
+];
 
         let currentQuestionIndex = 0;
         let selectedAnswers = Array(questions.length).fill(null);
@@ -288,19 +289,35 @@
             }
         }, 1000);
 
-        // Prevent back navigation
-        window.addEventListener("popstate", () => {
-            generateReport();
-        });
-        history.pushState(null, null, location.href);
         window.addEventListener("beforeunload", (e) => {
+        if (!isQuizComplete()) {
             e.preventDefault();
-            e.returnValue = '';
-            generateReport();
-        });
+            e.returnValue = 'Warning: If you leave or refresh the page, your progress will be lost!';
+        }
+    });
+
+    function isQuizComplete() {
+        return selectedAnswers.every(answer => answer !== null);
+    }
+
+    history.pushState(null, null, location.href);
+    window.addEventListener("popstate", (e) => {
+        if (!isQuizComplete()) {
+            alert("Warning: You cannot go back before completing the quiz!");
+            history.pushState(null, null, location.href); // Prevent navigation
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden" && !isQuizComplete()) {
+            alert("Warning: You switched tabs during the quiz! Please stay on the page.");
+        }
+    });
+
 
         createQuestionList();
         loadQuestion(currentQuestionIndex);
     </script>
 </body>
 </html>
+

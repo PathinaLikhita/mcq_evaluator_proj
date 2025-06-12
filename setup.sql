@@ -10,6 +10,15 @@ CREATE TABLE register (
     password VARCHAR(255) NOT NULL,
     mobileNumber VARCHAR(15) NOT NULL
 );
+CREATE TABLE quiz_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    start_time DATETIME,
+    score FLOAT DEFAULT NULL,
+    answers TEXT,
+    marked_review TEXT
+);
+
 
 CREATE TABLE login (
     id INT AUTO_INCREMENT PRIMARY KEY,
