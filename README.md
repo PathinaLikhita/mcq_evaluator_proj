@@ -86,7 +86,7 @@ The **MCQ Evaluator System** is a web-based application designed to simplify qui
 ## Developer Contact
 - **Developer**: Pathina Likhita, Kunuku Manasa, Lankalapalli Mounika
 - **Email**: likhithapathina@gmail.com , narasimhulukunuku43@gmail.com, mounikalankalapalli1@gmail.com
-- **GitHub**: [https://github.com/PathinaLikhita/mcq_evaluator_proj]
+- **GitHub**: [https://github.com/PathinaLikhita/mcq_evaluator_proj] (https://github.com/PathinaLikhita/mcq_evaluator_proj).
 
 ---
 
